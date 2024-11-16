@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+        .signup-container {
+            background-color: white;
+            padding: 6rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        .signup-container input, select, button {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #6c63ff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5753d9;
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+        .block-room-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .block-id, .room {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h1>Signup.</h1>
+        <form id="signupForm">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="phoneNumber">Phone Number</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number" required>
+
+            <div class="block-room-container">
+                <div class="block-id">
+                    <label for="blockID">Block ID</label>
+                    <input type="text" id="blockID" name="blockID" placeholder="Enter your Block ID" required>
+                </div>
+
+                <div class="room">
+                    <label for="room">Room</label>
+                    <input type="text" id="room" name="room" placeholder="Enter your Room" required>
+                </div>
+            </div>
+
+            <label for="usn">USN</label>
+            <input type="text" id="usn" name="usn" placeholder="Enter your USN" required>
+
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="Management">management</option>
+                <option value="Student">Student</option>
+            </select>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <button type="submit">Sign up</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const blockID = document.getElementById('blockID').value;
+            const room = document.getElementById('room').value;
+            const usn = document.getElementById('usn').value;
+            const role = document.getElementById('role').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, phoneNumber, blockID, room, usn, role, password })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.msg);
+                    window.location.href = 'login.html'; 
+                } else {
+                    alert(result.msg); 
+                }
+            } catch (error) {
+                alert('Error signing up.');
+            }
+        });
+    </script>
+</body>
+</html>

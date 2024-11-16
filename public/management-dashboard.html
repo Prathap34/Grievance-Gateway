@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .complaints-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 400px;
+            overflow-y: scroll;
+        }
+        .complaint {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .complaint strong {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .complaint p {
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="header">
+            <h1 style="margin: 0;">Warden Dashboard</h1>
+        </div>
+        
+        <div class="complaints-box">
+            <h2 style="margin-top: 0;">Complaints</h2>
+            <p><h2>Prathap 2-314 monitor not working</h2></p>
+            <div id="complaints"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://localhost:3000/complaints')
+                .then(response => response.json())
+                .then(data => {
+                    const complaintsDiv = document.getElementById('complaints');
+                    data.forEach(complaint => {
+                        const complaintElement = document.createElement('div');
+                        complaintElement.className = 'complaint';
+                        complaintElement.innerHTML = `<strong>${complaint.title}</strong><p>${complaint.description}</p>`;
+                        complaintsDiv.appendChild(complaintElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching complaints:', error));
+        });
+    </script>
+</body>
+<a href="index.html">ok</a>
+</html>

@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>Personal Details</title>
+    <link rel="shortcut icon" type="image/jpeg" href="img/image.jpg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,300&display=swap" rel="stylesheet">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width,initial-scale=1.0'>
+</head>
+<body style="font-family: 'Montserrat', sans-serif; background-color: #f8f9fa; margin: 0; padding: 0;">
+
+<section id="nav-bar">
+    <button class="chatbot-toggler" style="background-color: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 50px; cursor: pointer; position: fixed; bottom: 30px; right: 30px; font-size: 18px;">
+      <span class="material-symbols-rounded">Bot</span>
+    </button>
+
+    <div class="chatbot" style="position: fixed; bottom: 100px; right: 30px; width: 350px; background-color: white; border-radius: 10px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); overflow: hidden; display: none; flex-direction: column; justify-content: space-between; max-height: 500px;">
+      <header style="background-color: #007bff; color: white; padding: 15px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+        <h2>chat box</h2>
+        <span class="close-btn" style="cursor: pointer;">Close</span>
+      </header>
+
+      <ul class="chatbox" style="padding: 10px; overflow-y: auto; flex-grow: 1; list-style-type: none;" id="chat-list">
+        <li class="chat incoming" style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+          <span style="background-color: #007bff; color: white; padding: 10px; border-radius: 50%; margin-right: 10px;">Bot</span>
+          <p style="background-color: #f1f1f1; padding: 10px; border-radius: 10px; max-width: 70%;">Hi there 👋<br>How can I help you today?</p>
+        </li>
+      </ul>
+
+      <div class="chat-input" style="display: flex; align-items: center; padding: 10px; background-color: #f1f1f1;">
+        <textarea placeholder="Enter a message..." spellcheck="false" required id="message-input" style="width: 80%; padding: 10px; border: none; border-radius: 5px; resize: none; outline: none;"></textarea>
+        <span id="send-btn" style="cursor: pointer; background-color: #007bff; color: white; padding: 10px; border-radius: 50%; margin-left: 10px;">send</span>
+      </div>
+    </div>
+
+<script>
+// JavaScript for toggling chatbot display
+document.querySelector('.chatbot-toggler').addEventListener('click', function() {
+    const chatbot = document.querySelector('.chatbot');
+    chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
+});
+
+// Close button functionality
+document.querySelector('.close-btn').addEventListener('click', function() {
+    document.querySelector('.chatbot').style.display = 'none';
+});
+
+// Sending a message
+document.querySelector('#send-btn').addEventListener('click', function() {
+    sendMessage();
+});
+
+// Optionally, you can allow pressing 'Enter' to send the message
+document.querySelector('#message-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevents creating a new line in the textarea
+        sendMessage();
+    }
+});
+
+// Function to send a message
+function sendMessage() {
+    const messageInput = document.querySelector('#message-input');
+    const message = messageInput.value.trim();
+
+    if (message === '') {
+        return; // Don't send empty messages
+    }
+
+    // Append user's message to chatbox
+    const chatList = document.querySelector('#chat-list');
+    const userMessage = document.createElement('li');
+    userMessage.style.display = 'flex';
+    userMessage.style.alignItems = 'flex-start';
+    userMessage.style.marginBottom = '10px';
+    userMessage.innerHTML = `
+        <span style="background-color: #007bff; color: white; padding: 10px; border-radius: 50%; margin-right: 10px;">You</span>
+        <p style="background-color: #e1f5fe; padding: 10px; border-radius: 10px; max-width: 70%;">${message}</p>
+    `;
+    chatList.appendChild(userMessage);
+
+    // Clear the input field after sending
+    messageInput.value = '';
+    
+    // Optionally, scroll to the bottom of the chat
+    chatList.scrollTop = chatList.scrollHeight;
+}
+</script>
+
+</body>
+</html>
